@@ -28,15 +28,46 @@ Provide a high-level overview of your project. What problem does it solve? Why i
 
 ### Backend
 1. Create a 'server' directory.
-2. Run `npm init -y` and `npm i express cors mongodb dotenv`.
+2. Run the following commands:
+```bash
+npm init -y
+npm i express cors mongodb dotenv
+```
 3. Create `index.js` and set up basic server configuration.
-4. Add middleware for Express.
-5. Define routes and start the server.
+```js
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const port = process.env.PORT || 5000;
+
+// middleware
+app.use(cors());
+app.use(express.json());
+
+app.get('/', (req, res) =>{
+    res.send("Coffee server is running");
+})
+
+app.listen(port, () =>{
+    console.log(`Coffee Server Port: ${port}`);
+})
+```
 
 ### Client Side
-1. Use React Router and create a Vite project.
-2. Install necessary dependencies.
+1. Use React Router and create a Vite project. Run the following command:
+```bash
+npm create vite@latest name-of-your-project -- --template react
+```
+2. Install necessary dependencies. Run the following command:
+```bash
+cd ..
+npm install react-router-dom localforage match-sorter sort-by
+```
 3. Set up Tailwind CSS and Daisy UI.
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
 4. Add routes and components for the client side.
 
 ### Setup MongoDB
