@@ -2,7 +2,7 @@
 
 Brief project description or tagline.
 
-## Table of Contents
+### Table of Contents
 - [Overview](#overview)
 - [Installation & Setup](#installation--setup)
   - [Backend](#backend)
@@ -20,7 +20,7 @@ Brief project description or tagline.
   - [Vercel](#vercel-deploy)
 - [Contributing](#contributing)
 - [License](#license)
-
+ 
 ## Overview
 Provide a high-level overview of your project. What problem does it solve? Why is it awesome?
 
@@ -53,64 +53,88 @@ app.listen(port, () =>{
 })
 ```
 
+**[⬆ Back to Top](#table-of-contents)**
+
+
 ### Client Side
 1. Use React Router and create a Vite project. Run the following command:
 ```bash
 npm create vite@latest name-of-your-project -- --template react
 ```
-2. Install necessary dependencies. Run the following command:
+
 ```bash
 cd ..
+```
+2. Install necessary dependencies. Run the following command:
+```bash
 npm install react-router-dom localforage match-sorter sort-by
 ```
 3. Set up Tailwind CSS and Daisy UI.
 ```bash
-npm install -D tailwindcss postcss autoprefixer
+npm install -D tailwindcss postcss autoprefixer 
+npm i -D daisyui@latest
 npx tailwindcss init -p
 ```
-4. Add routes and components for the client side.
+4. tailwind.config.js
+
+```js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [require("daisyui")],
+}
+
+```
+
+5. index.css
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+6. 
+```
+npm run dev
+```
+
+**[⬆ Back to Top](#table-of-contents)**
 
 ### Setup MongoDB
-1. Set up MongoDB Atlas.
-2. Configure environment variables using dotenv.
-3. Connect to MongoDB in the server-side code.
-4. Perform CRUD operations with MongoDB.
+
 
 ### Handling Forms
-1. Create a form for handling data input.
-2. Handle form submission and gather data.
-3. Send data to the server.
+
 
 ### Adding Routes
-1. Create necessary components (Main, Routes, Navbar, Footer).
-2. Define routes using React Router.
-3. Integrate routes into the main application.
+
 
 ### Setup Firebase
-1. Create a Firebase project.
-2. Initialize Firebase in the client-side code.
-3. Enable email-password and Google authentication.
-4. Implement sign-up and login functionality.
+
+
+
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## User Authentication
 
 ### Register
-1. Design and implement the registration form.
-2. Handle user registration on the client side.
-3. Send user data to the server and store in MongoDB.
+1. 
 
 ### Login
-1. Design and implement the login form.
-2. Handle user login on the client side.
-3. Authenticate with Firebase.
+1. 
 
 ### Create User in Database
-1. Set up a user collection in MongoDB.
-2. Store user data in the database after registration.
+1. 
 
 ### Load All User Data
-1. Create a Users component.
-2. Fetch and display user data.
+1. 
 
 ## Deployment
 
