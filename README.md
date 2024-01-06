@@ -4,20 +4,28 @@ Brief project description or tagline.
 
 ### Table of Contents
 - [Overview](#overview)
+
 - [Installation & Setup](#installation--setup)
   - [Backend](#backend)
   - [Client Side](#client-side)
   - [Firebase](#firebase)
+
 - [React Template](#react-template)
-  - [React Router](###react-router)
+  - [React Router](#react-router)
+  - [Context API](#context-api)
+  - [Axios](#axios)
+  - [React-Hook-Form](#react-hook-form)
+
 - [Deployment](#deployment)
  
 ## Overview
 Provide a high-level overview of your project. What problem does it solve? Why is it awesome?
 
-## Installation & Setup
+Installation & Setup
+=======
 
-### Backend
+Backend
+------
 1. Create a 'server' directory.
 2. Run the following commands:
 ```bash
@@ -44,11 +52,14 @@ app.listen(port, () =>{
 })
 ```
 
+<br>
+
 **[⬆ Back to Top](#table-of-contents)**
 
-<hr/>
+<br>
 
-### Client Side 
+Client Side
+------ 
 
 1. Use React Router and create a Vite project. Run the following command:
 ```bash
@@ -106,18 +117,15 @@ npm run dev
 [DaisyUI](https://daisyui.com/docs/install/)
 
 
-<!-- 
-### Setup MongoDB
-### Handling Forms
-### Adding Routes
-### Setup Firebase -->
 
+<br/>
 
 **[⬆ Back to Top](#table-of-contents)**
 
-<hr/>
+<br/>
 
-### Firebase
+Firebase
+------
 
 ```
 npm i firebase
@@ -224,11 +232,17 @@ const ContinueWithGoogle = () => {
 export default ContinueWithGoogle;
 ```
 
+<br>
+
 **[⬆ Back to Top](#table-of-contents)**
 
-## React Template
+<br>
 
-### React Router
+React Template
+========
+
+React Router
+------------
 
 1. Initialization
 
@@ -247,7 +261,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ```
 
-`Route.jsx`
+`Router.jsx`
 ```jsx
 
 import {
@@ -264,6 +278,7 @@ import {
 
   export default router;
 ```
+
 
 2. Nested Routes and Error Page
 
@@ -316,11 +331,40 @@ const { contacts } = useLoaderData();
 
 `NavLink`
 
+5. Private Routing
+
+`PrivateRouter.jsx`
+```jsx
+import { useContext } from "react";
+import { AuthContext } from "../provider/AuthProvider";
+import { Navigate } from "react-router-dom";
+
+
+const PrivateRouter = ({children}) => {
+
+    const {user, loading} = useContext(AuthContext);
+    if(loading) return <p>Loading...</p>;
+    // console.log(user);
+
+    if (user) {
+        return children;
+    }
+    else if( user == null ) return <Navigate to="/login" replace />; 
+};
+
+export default PrivateRouter;
+```
+
+
+
 **[⬆ Back to Top](#table-of-contents)**
 
 
 
-### Context API
+
+
+Context API
+--------
 
 
 ###### constext api basic format
@@ -370,11 +414,15 @@ const Home = () => {
 export default Home;
 ```
 
+<br>
+
 **[⬆ Back to Top](#table-of-contents)**
 
+<br>
 
 
-### Axios
+Axios
+---------
 
 
 ###### useAxiosPublic
@@ -393,10 +441,81 @@ const useAxiosPublic = () => {
 export default useAxiosPublic;
 ```
 
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
 
 
 
+[React Hook Form](https://react-hook-form.com/get-started)
+------------------------------------------------
+
+- install
+
+```
+npm install react-hook-form
+```
+
+- example
+
+```jsx
+import { useForm } from "react-hook-form"
+
+export default function App() {
+  const { register, handleSubmit } = useForm()
+  const onSubmit = (data) => console.log(data)
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register("firstName")} />
+      <select {...register("gender")}>
+        <option value="female">female</option>
+        <option value="male">male</option>
+        <option value="other">other</option>
+      </select>
+      <input type="submit" />
+    </form>
+  )
+}
+```
+
+- **Apply validation**
+
+  required, min, max, minLength, maxLength, pattern, validate
+
+  ```jsx
+  import { useForm } from "react-hook-form"
+
+  export default function App() {
+    const { register, handleSubmit } = useForm()
+    const onSubmit = (data) => console.log(data)
+
+
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("firstName", { required: true, maxLength: 20 })} />
+        <input {...register("lastName", { pattern: /^[A-Za-z]+$/i })} />
+        <input type="number" {...register("age", { min: 18, max: 99 })} />
+        <input type="submit" />
+      </form>
+    )
+  }
+  ```
+
+
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
 
 ## Deployment
 
 
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
