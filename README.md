@@ -585,7 +585,7 @@ DND
 
 #### Basic single column DND
 
-`dnd.jsx`
+`DND.jsx`
 
 ```jsx
 import { useState } from "react";
@@ -601,17 +601,16 @@ const students = [
     { id: 6, name: 'student6' },
 ]
 
-const DND3Try = () => {
+const DND = () => {
 
     const [data, setData] = useState(students);
 
     const handleOnDragEnd = ( result ) =>{
         if(!result.destination) return;
-        // console.log(result)
         
         const tempArray = data;
-        const [slice] = tempArray.slice(result.source.index, 1);
-        tempArray.slice(result.source.index, 0, slice)
+        const [slice] = tempArray.splice(result.source.index, 1);
+        tempArray.splice(result.destination.index, 0, slice);
 
         setData(tempArray);
     }
@@ -619,7 +618,7 @@ const DND3Try = () => {
     return (
         <div>
         <div className="w-1/4 mx-auto">
-
+            
             <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId="dnd3">
                     {
@@ -655,7 +654,7 @@ const DND3Try = () => {
     );
 };
 
-export default DND3Try;
+export default DND;
 ```
 
 
