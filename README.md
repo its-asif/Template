@@ -15,6 +15,8 @@ Brief project description or tagline.
   - [Context API](#context-api)
   - [Axios](#axios)
   - [React-Hook-Form](#react-hook-form)
+  - [Dark Mode](#enable-dark-mode)
+  - [DND](#dnd)
 
 - [Deployment](#deployment)
  
@@ -567,6 +569,95 @@ Enable Dark Mode
 
   export default ThemeToggler;
   ```
+
+
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
+
+
+
+
+DND
+----------------------------------------------------------------
+
+#### Basic single column DND
+
+`dnd.jsx`
+
+```jsx
+import { useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
+
+const students = [
+    { id: 1, name: 'student1' },
+    { id: 2, name: 'student2' },
+    { id: 3, name: 'student3' },
+    { id: 4, name: 'student4' },
+    { id: 5, name: 'student5' },
+    { id: 6, name: 'student6' },
+]
+
+const DND3Try = () => {
+
+    const [data, setData] = useState(students);
+
+    const handleOnDragEnd = ( result ) =>{
+        if(!result.destination) return;
+        // console.log(result)
+        
+        const tempArray = data;
+        const [slice] = tempArray.slice(result.source.index, 1);
+        tempArray.slice(result.source.index, 0, slice)
+
+        setData(tempArray);
+    }
+
+    return (
+        <div>
+        <div className="w-1/4 mx-auto">
+
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="dnd3">
+                    {
+                        (props) =>
+                        <ul
+                            className=""
+                            {...props.droppableProps}
+                            ref = {props.innerRef}
+                        >
+                            {
+                                data.map( (x, index) => 
+                                <Draggable key={x.id} draggableId={x.id.toString()} index={index}>
+                                    {
+                                        (props) =>
+                                        <li 
+                                            ref={props.innerRef}
+                                            {...props.draggableProps}
+                                            {...props.dragHandleProps}
+                                        >
+                                            <p>{x.name}</p>
+                                        </li>
+                                    }
+                                </Draggable>
+                                )
+                            }
+                            {props.placeholder}
+                        </ul>
+                    }
+                </Droppable>
+            </DragDropContext>
+        </div>
+        </div>
+    );
+};
+
+export default DND3Try;
+```
+
 
 
 <br>
