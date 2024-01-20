@@ -28,6 +28,11 @@ Installation & Setup
 
 Backend
 ------
+
+
+[Mongoose Template](backend/MONGOOSE.md)
+
+
 1. Create a 'server' directory.
 2. Run the following commands:
 ```bash
@@ -60,7 +65,7 @@ app.listen(port, () =>{
 
 <br>
 
-[Mongoose Template](backend/MONGOOSE.md)
+
 
 Client Side
 ------ 
