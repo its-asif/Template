@@ -304,4 +304,46 @@ router.delete('/:id', async(req, res) => {
 ```
 
 
+#### Custom Instace Method
+
+* ###### 'save' is a builtin instance method of mongoose
+
+
+`todoSchema.js`
+
+```js
+// ...
+
+todoSchema.methods = {
+    findActive: function() {
+        return mongoose.model('Todo').find({status: 'active'});
+    },
+}
+
+
+module.exports = todoSchema;
+```
+
+
+`todoHandler.js`
+
+```js
+// Get Active Todos from custom instance
+router.get('/active', async (req, res) => {
+    try{
+        const todo = new Todo();
+        const data = await todo.findActive();
+        res.status(200).json({
+            data
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            error : "There was a server side error!",
+        })
+    }
+})
+```
+
+
 **[⬆ Back to Top](#table-of-contents)**
