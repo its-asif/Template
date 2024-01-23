@@ -97,7 +97,7 @@ app.listen(3000, () => {
 const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router() // router is a middleware which is used to handle the routes
-const todoSchema = require('../schemas/todoSchema')
+const Todo = require('../schemas/todoSchema')
 
 const Todo = new mongoose.model('Todo', todoSchema) // "Todo" is the collection name
 
@@ -147,6 +147,9 @@ const todoSchema = mongoose.Schema({
     title: {
         type: String,
         required: true,
+        // required: [true , "title is required"],
+        // unique : true,
+        // lowercase : true,
     },
     description: String,
     status: {
@@ -157,9 +160,11 @@ const todoSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-})
+}
+// ,{timestamps : true}
+)
 
-module.exports = todoSchema;
+module.exports = mongoose.model('Todo', todoSchema)
 ```
 
 
