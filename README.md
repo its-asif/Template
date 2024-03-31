@@ -7,6 +7,7 @@ Brief project description or tagline.
 
 - [Installation & Setup](#installation--setup)
   - [Backend](#backend)
+    - [Mongoose Template](backend/MONGOOSE.md)
   - [Client Side](#client-side)
   - [Firebase](#firebase)
 
@@ -18,6 +19,7 @@ Brief project description or tagline.
   - [Dark Mode](#enable-dark-mode)
   - [DND](#dnd)
 
+- [Javascript Template](Javascript.md)
 - [Deployment](#deployment)
  
 ## Overview
@@ -39,27 +41,124 @@ Backend
 npm init -y
 npm i express cors mongodb dotenv
 ```
-3. Create `index.js` and set up basic server configuration.
+
+3. file structure
+
+File Structuring
+----------------------------------------------------------------------------------------------
+
+    .
+    ├── ...
+    ├── index.js
+    ├── db.js    
+    ├── routeHandler           
+    │   └── users.js              
+    │   └── ...         
+    └── ...
+
+    
+4.  `index.js`
 ```js
 const express = require("express");
 const cors = require("cors");
+require('dotenv').config();
 const app = express();
-const port = process.env.PORT || 5000;
+
+const port = process.env.PORT || 3000;
+
+const { connectToMongoDB } = require("./db");
+const userRoutes = require("./routeHandler/users");
+
 
 // middleware
 app.use(cors());
 app.use(express.json());
 
+//connect to mongodb
+connectToMongoDB();
+
+// routes
+app.use("/api/users", userRoutes);
+
+
 app.get('/', (req, res) =>{
-    res.send("Coffee server is running");
+    res.send("My Task server is running");
 })
 
 app.listen(port, () =>{
-    console.log(`Coffee Server Port: ${port}`);
+    console.log(`My Task Server Port: ${port}`);
 })
 ```
 
 <br>
+
+`db.js`
+```js
+const { MongoClient, ServerApiVersion } = require("mongodb");
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.gf8ipgr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
+
+async function connectToMongoDB() {
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+}
+
+module.exports = { client, connectToMongoDB };
+```
+
+<br>
+
+`users.js`
+
+```js
+const express = require("express");
+const { client } = require("../db");
+const router = express.Router();
+
+const userCollection = client.db("MyTask").collection("users");
+
+
+router.get('/', async (req, res) =>{
+    const users = await userCollection.find().toArray();
+    res.send(users);
+})
+
+router.get('/:email', async(req,res) =>{
+    const userData = await userCollection.find({
+        email : req.params.email
+    }).toArray();
+})
+
+router.post('/', async(req,res) =>{
+    const newUserData = req.body;
+    const userExists = await userCollection.findOne({email : newUserData.email})
+    newUserData.isAdmin = false;
+
+    if(userExists){
+        res.send("User already exists");
+    }
+    else{
+        const result = await userCollection.insertOne(newUserData);
+        console.log("new user data : ", newUserData);
+        res.json(newUserData);
+    }
+})
+
+module.exports = router;
+```
+
 
 **[⬆ Back to Top](#table-of-contents)**
 
