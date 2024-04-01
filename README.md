@@ -28,6 +28,8 @@ Provide a high-level overview of your project. What problem does it solve? Why i
 Installation & Setup
 =======
 
+
+
 Backend
 ------
 
@@ -770,6 +772,73 @@ export default DND;
 **[⬆ Back to Top](#table-of-contents)**
 
 <br>
+
+
+
+Auto Host Image on Imgbb
+----------------------------------------------------------------
+
+```js
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
+
+const Register = () => {
+  const axiosPublic = useAxiosPublic(); 
+  //...
+
+    const handleRegister = async(e) =>{
+      e.preventDefault();
+      const form = new FormData(e.currentTarget);
+
+      // console.log(form.get('photoURL'));
+        const imageFile = {image : form.get('photoURL')};
+        const res = await axiosPublic.post(image_hosting_api, imageFile,{
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+
+        const name = form.get('name');
+        // ...
+        const photoURL = res.data.data.url;
+
+        const password = //...
+        console.log(..., photoURL, .....);
+    }
+  //...
+
+
+  return(
+    <div>
+      // ...
+
+      <form className="w-3/4 md:w-1/2 lg:w-1/3 mx-auto" onSubmit={handleRegister}>
+        //......
+        {/* Photo */}
+        <div className="form-control">
+            <label className="label">
+                <span className="label-text">Photo URL</span>
+            </label>
+            <input type="file"  name="photoURL" className="file-input w-full max-w-xs"  required/>
+        </div>
+
+        //......
+
+      </form>
+    </div>
+  )
+}
+```
+
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
+
+
+#### Basic single column DND
 
 
 ## Deployment
