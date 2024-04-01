@@ -18,6 +18,7 @@ Brief project description or tagline.
   - [React-Hook-Form](#react-hook-form)
   - [Dark Mode](#enable-dark-mode)
   - [DND](#dnd)
+  - [imgbb-auto-host](#auto-host-image-on-imgbb)
 
 - [Javascript Template](Javascript.md)
 - [Deployment](#deployment)
@@ -837,8 +838,6 @@ const Register = () => {
 
 <br>
 
-
-#### Basic single column DND
 
 
 ## Deployment
