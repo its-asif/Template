@@ -842,6 +842,36 @@ const Register = () => {
 
 ## Deployment
 
+#### Frontend - firebase
+--> npm run build & firebase deploy
+
+
+#### Backend - Vercel
+
+`vercel.json`
+```json
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "./index.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/",
+            "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+        }
+    ]
+}
+
+```
+
+cmd : vercel > QNA & done.......
+next add .env file data  .......
+& everytime vercel --prod
 
 <br>
 
