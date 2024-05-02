@@ -8,6 +8,7 @@ Brief project description or tagline.
 - [Installation & Setup](#installation--setup)
   - [Backend](#backend)
     - [Mongoose Template](backend/MONGOOSE.md)
+    - [Sequelize x MySQL Template](backend/Sequelize-mySQL.md)
   - [Client Side](#client-side)
   - [Firebase](#firebase)
 
