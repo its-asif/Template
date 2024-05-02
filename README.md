@@ -21,6 +21,7 @@ Why are you wondering around in my Template Repo without giving it a star!!!
   - [Dark Mode](#enable-dark-mode)
   - [DND](#dnd)
   - [imgbb-auto-host](#auto-host-image-on-imgbb)
+  - [imgbb-auto-host](#auto-host-image-on-imgbb)
 
 - [Javascript Template](Javascript.md)
 - [Deployment](#deployment)
@@ -832,6 +833,51 @@ const Register = () => {
     </div>
   )
 }
+```
+
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
+
+
+bcrypt
+---------------------------------------------------------------
+
+
+##### hashing pass
+
+```js
+const bcrypt = require('bcrypt');
+
+async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      user.password = hashedPassword;
+  }
+
+```
+
+##### matching pass
+
+```js
+
+const bcrypt = require('bcrypt');
+
+const storedPassword = user.password; // Password from the database
+const enteredPassword = 'user-entered-password'; // Password entered by the user during login
+
+// Compare
+bcrypt.compare(enteredPassword, storedPassword, (err, result) => {
+    if (err) {
+        console.error('Error comparing passwords:', err);
+    } else if (result) {
+        // Passwords match, user authentication successful
+    } else {
+        // Passwords don't match, user authentication failed 401
+    }
+});
+
 ```
 
 <br>
