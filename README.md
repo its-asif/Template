@@ -21,7 +21,7 @@ Why are you wondering around in my Template Repo without giving it a star!!!
   - [Dark Mode](#enable-dark-mode)
   - [DND](#dnd)
   - [imgbb-auto-host](#auto-host-image-on-imgbb)
-  - [imgbb-auto-host](#auto-host-image-on-imgbb)
+  - [bcrypt](#bcrypt)
 
 - [Javascript Template](Javascript.md)
 - [Deployment](#deployment)
