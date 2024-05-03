@@ -419,55 +419,150 @@ module.exports = {
 Guide
 ----------------------------------------------------------------------------------------------
 
-#### Get Data
-
-###### Get all data
-
-```js
-const getAllBlogs = async (req, res) =>{
-    try {
-        
-        const blogs = await Blog.findAll();
-        res.json(blogs);
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Server Error' });
-    }
-}
-```
-
-<br>
-
-###### Get by id
-
-```js
-await Model.findByPk( req.params.id );
-```
-
-<br>
+### Get Data
 
 
-###### Get by some other criteria
+1. **Finding all records:**
+   You can use the `findAll` method to retrieve all records from a table.
 
-```js
-await Model.findAll({
-            where: {
-                some_id
-            }
-        });
-```
+   ```javascript
+   const allUsers = await User.findAll();
+   console.log('All users:', allUsers);
+   ```
 
-<br>
+2. **Finding records with conditions:**
+   You can use the `findAll` method with a `where` clause to retrieve records that meet specific conditions.
 
+   ```javascript
+   const specificUsers = await User.findAll({
+     where: {
+       firstName: 'John',
+     },
+   });
+   console.log('Specific users:', specificUsers);
+   ```
 
-###### Get blog with comments (inner/left/right join)
+3. **Finding the first record:**
+   You can use the `findOne` method to retrieve the first record that matches the specified conditions.
 
-```js
-const blog = await Blog.findByPk(blog_id, {
-            include: Comment
-        });
-```
+   ```javascript
+   const firstUser = await User.findOne();
+   console.log('First user:', firstUser);
+   ```
+
+4. **Finding a record by primary key:**
+   If your table has a primary key, you can use the `findByPk` method to retrieve a record by its primary key value.
+
+   ```javascript
+   const userById = await User.findByPk(1);
+   console.log('User by ID:', userById);
+   ```
+
+5. **Counting records:**
+   You can use the `count` method to get the count of records that match the specified conditions.
+
+   ```javascript
+   const userCount = await User.count();
+   console.log('Total users:', userCount);
+   ```
+
+6. **Limiting the number of records:**
+   You can use the `limit` option to limit the number of records returned.
+
+   ```javascript
+   const limitedUsers = await User.findAll({ limit: 10 });
+   console.log('Limited users:', limitedUsers);
+   ```
+
+7. **Ordering records:**
+   You can use the `order` option to specify the order in which records are returned.
+
+   ```javascript
+   const orderedUsers = await User.findAll({ order: [['createdAt', 'DESC']] });
+   console.log('Ordered users:', orderedUsers);
+   ```
+
+8. **Finding records with attributes selection:**
+   You can specify which attributes you want to retrieve using the `attributes` option.
+
+   ```javascript
+   const selectedUsers = await User.findAll({
+     attributes: ['firstName', 'lastName'],
+   });
+   console.log('Selected users:', selectedUsers);
+   ```
+
+9. **Finding records with inclusion of associated models:**
+   If your models have associations, you can include associated models in the query results using the `include` option. [ left/right/inner join]
+
+   ```javascript
+   const usersWithPosts = await User.findAll({
+     include: [{ model: Post }],
+   });
+   console.log('Users with posts:', usersWithPosts);
+   ```
+
+10. **Finding records with exclusion of attributes:**
+    You can exclude certain attributes from the query results using the `attributes` option with the exclude array.
+
+    ```javascript
+    const usersWithoutEmails = await User.findAll({
+      attributes: { exclude: ['email'] },
+    });
+    console.log('Users without emails:', usersWithoutEmails);
+    ```
+
+11. **Finding records with pagination:**
+    You can implement pagination by using the `offset` and `limit` options.
+
+    ```javascript
+    const page = 1;
+    const pageSize = 10;
+    const paginatedUsers = await User.findAll({
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+    });
+    console.log('Paginated users:', paginatedUsers);
+    ```
+
+12. **Finding records with group by and having clause:**
+    Sequelize supports `group` and `having` options for grouping query results and applying conditions to grouped data.
+
+    ```javascript
+    const groupedUsers = await User.findAll({
+      attributes: ['department', [sequelize.fn('COUNT', sequelize.col('id')), 'userCount']],
+      group: ['department'],
+      having: sequelize.where(sequelize.fn('COUNT', sequelize.col('id')), '>', 5),
+    });
+    console.log('Grouped users:', groupedUsers);
+    ```
+
+13. **Finding records with raw SQL queries:**
+    Sequelize allows you to execute raw SQL queries if you need to perform complex operations that can't be achieved using Sequelize's built-in methods.
+
+    ```javascript
+    const [results, metadata] = await sequelize.query('SELECT * FROM users WHERE age > 18');
+    console.log('Raw query results:', results);
+    ```
+
+    Just be cautious when using raw SQL queries to avoid SQL injection vulnerabilities.
+
+14. **Finding records with complex conditions:**
+    Sequelize provides various operators like `Op.and`, `Op.or`, `Op.gt`, `Op.lt`, etc., to build complex conditions in your queries.
+
+    ```javascript
+    const { Op } = require('sequelize');
+    const usersAbove18 = await User.findAll({
+      where: {
+        [Op.and]: [
+          { age: { [Op.gt]: 18 } },
+          { isAdmin: false },
+        ],
+      },
+    });
+    console.log('Users above 18 who are not admins:', usersAbove18);
+    ```
+
 
 <br>
 
@@ -475,25 +570,121 @@ const blog = await Blog.findByPk(blog_id, {
 
 
 
-#### POST data
+### POST data
 
-###### post data
 
-```js
-await Comment.create(req.body);
-```
+1. **Creating a single record:**
+   You can use the `create` method to insert a new record into the database.
 
-###### handle SequelizeValidationError
+   ```javascript
+   const newUser = await User.create({
+     firstName: 'John',
+     lastName: 'Doe',
+     email: 'john@example.com',
+   });
+   console.log('New user created:', newUser);
+   ```
 
-```js
-catch (error) {
-    console.log(error);
-    if( error.name === 'SequelizeValidationError' ) {
-        return res.status(400).json({ message: error.errors[0].message });
-    }
-    res.status(500).json({ message: 'Server Error' });
-}
-```
+2. **Creating multiple records:**
+   If you have an array of data, you can use the `bulkCreate` method to insert multiple records at once.
+
+   ```javascript
+   const newUsers = await User.bulkCreate([
+     { firstName: 'Jane', lastName: 'Doe', email: 'jane@example.com' },
+     { firstName: 'Alice', lastName: 'Smith', email: 'alice@example.com' },
+   ]);
+   console.log('New users created:', newUsers);
+   ```
+
+3. **Creating associated records:**
+   If your models have associations, you can create associated records along with the main record.
+
+   ```javascript
+   const newUserWithPosts = await User.create({
+     firstName: 'John',
+     lastName: 'Doe',
+     email: 'john@example.com',
+     Posts: [
+       { title: 'First Post', content: 'This is the content of the first post.' },
+       { title: 'Second Post', content: 'This is the content of the second post.' },
+     ],
+   }, {
+     include: [Post],
+   });
+   console.log('New user with posts created:', newUserWithPosts);
+   ```
+
+4. **Handling validation errors:**
+   If your model has validation rules defined, Sequelize will throw an error if the data doesn't meet those rules. You can handle these errors using try-catch blocks.
+
+   ```javascript
+   try {
+     const invalidUser = await User.create({ email: 'invalid-email' });
+     console.log('New user created:', invalidUser);
+   } catch (error) {
+     console.error('Error creating user:', error.message);
+   }
+   ```
+
+
+5. **Creating records with associations using nested includes:**
+   If your models have nested associations, you can use nested includes to create records and their associated records in a single operation.
+
+   ```javascript
+   const newAuthorWithBooks = await Author.create({
+     name: 'John Doe',
+     Books: [
+       { title: 'Book 1', genre: 'Fiction' },
+       { title: 'Book 2', genre: 'Non-fiction' },
+     ],
+   }, {
+     include: [{ model: Book, as: 'Books' }],
+   });
+   console.log('New author with books created:', newAuthorWithBooks);
+   ```
+
+6. **Creating records with transaction:**
+   If you need to ensure that multiple operations are executed atomically (i.e., either all of them succeed or none of them succeed), you can use transactions.
+
+   ```javascript
+   const t = await sequelize.transaction();
+   try {
+     const newUser = await User.create({
+       firstName: 'John',
+       lastName: 'Doe',
+       email: 'john@example.com',
+     }, { transaction: t });
+
+     const newProfile = await Profile.create({
+       userId: newUser.id,
+       bio: 'This is John Doe\'s profile.',
+     }, { transaction: t });
+
+     await t.commit();
+     console.log('New user and profile created:', newUser, newProfile);
+   } catch (error) {
+     await t.rollback();
+     console.error('Error creating user and profile:', error);
+   }
+   ```
+
+7. **Creating records with custom hooks:**
+   Sequelize allows you to define hooks that are executed before or after certain lifecycle events (such as beforeCreate, afterCreate, etc.). You can use these hooks to perform custom logic before or after creating records.
+
+   ```javascript
+   User.addHook('beforeCreate', (user, options) => {
+     console.log('Before creating user:', user);
+   });
+
+   const newUser = await User.create({
+     firstName: 'John',
+     lastName: 'Doe',
+     email: 'john@example.com',
+   });
+   ```
+
+
+
 
 <br>
 
@@ -502,19 +693,59 @@ catch (error) {
 
 
 
-#### UPDATE data
+### UPDATE data
 
-###### edit data
 
-```js
-await Model.update({
-            field: req.body.field_name
-        }, {
-            where : {
-                some_id : req.params.id
-            }
-        });
-```
+1. **Updating a single record:**
+   You can use the `update` method to update a single record in the database.
+
+   ```javascript
+   const [numRowsAffected, updatedUser] = await User.update(
+     { firstName: 'Jane', lastName: 'Doe' }, // New data
+     { where: { id: 1 } } // Condition
+   );
+   console.log('Number of rows affected:', numRowsAffected);
+   console.log('Updated user:', updatedUser);
+   ```
+
+2. **Updating multiple records:**
+   You can also update multiple records that match certain conditions using the `update` method.
+
+   ```javascript
+   const [numRowsAffected, updatedUsers] = await User.update(
+     { status: 'active' }, // New data
+     { where: { department: 'IT' } } // Condition
+   );
+   console.log('Number of rows affected:', numRowsAffected);
+   console.log('Updated users:', updatedUsers);
+   ```
+
+3. **Updating records with associations:**
+   If your models have associations, you can update associated records along with the main record.
+
+   ```javascript
+   const updatedUser = await User.findByPk(1);
+   updatedUser.firstName = 'Jane';
+   updatedUser.lastName = 'Doe';
+   await updatedUser.save();
+   ```
+
+4. **Handling validation errors:**
+   Just like with "POST" operations, if your model has validation rules defined, Sequelize will throw an error if the updated data doesn't meet those rules.
+
+   ```javascript
+   try {
+     const updatedUser = await User.update(
+       { email: 'invalid-email' },
+       { where: { id: 1 } }
+     );
+     console.log('Updated user:', updatedUser);
+   } catch (error) {
+     console.error('Error updating user:', error.message);
+   }
+   ```
+
+
 
 <br>
 
@@ -523,17 +754,39 @@ await Model.update({
 
 
 
-#### DELETE data
+### DELETE data
 
-###### delete data
 
-```js
-await Model.destroy({
-            where : {
-                some_id : req.params.id
-            }
-        });
-```
+1. **Deleting a single record:**
+   You can use the `destroy` method to delete a single record from the database.
+
+   ```javascript
+   const numRowsDeleted = await User.destroy({
+     where: { id: 1 } // Condition
+   });
+   console.log('Number of rows deleted:', numRowsDeleted);
+   ```
+
+2. **Deleting multiple records:**
+   You can also delete multiple records that match certain conditions using the `destroy` method.
+
+   ```javascript
+   const numRowsDeleted = await User.destroy({
+     where: { department: 'IT' } // Condition
+   });
+   console.log('Number of rows deleted:', numRowsDeleted);
+   ```
+
+3. **Deleting records with associations:**
+   If your models have associations, you can delete associated records along with the main record.
+
+   ```javascript
+   const userToDelete = await User.findByPk(1);
+   await userToDelete.destroy();
+   ```
+
+
+
 
 <br>
 
