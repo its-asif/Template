@@ -1,15 +1,17 @@
 # Template
 
 #### Hey, you!!! 
-Why are you wondering around in my Template Repo without giving it a star!!!
+Why are you wondering around without giving it a STAR⭐!!!
 
 ### Table of Contents
-- [Overview](#overview)
+
+- **[JavaScript Template](./lang/Javascript.md)**
+- **[TypeScript Template](./lang/TypeScript.md)**
 
 - [Installation & Setup](#installation--setup)
   - [Backend](#backend)
-    - [Mongoose Template](backend/MONGOOSE.md)
-    - [Sequelize x MySQL Template](backend/Sequelize-mySQL.md)
+    - **[Mongoose Template](backend/MONGOOSE.md)**
+    - **[Sequelize x MySQL Template](backend/Sequelize-mySQL.md)**
   - [Client Side](#client-side)
   - [Firebase](#firebase)
 
@@ -23,11 +25,9 @@ Why are you wondering around in my Template Repo without giving it a star!!!
   - [imgbb-auto-host](#auto-host-image-on-imgbb)
   - [bcrypt](#bcrypt)
 
-- [Javascript Template](Javascript.md)
 - [Deployment](#deployment)
- 
-## Overview
-Provide a high-level overview of your project. What problem does it solve? Why is it awesome?
+
+
 
 Installation & Setup
 =======

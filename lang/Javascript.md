@@ -1,4 +1,4 @@
-[Go to Home](./README.md)
+[Go to Home](../README.md)
 
 Javascript Template
 ===============================
