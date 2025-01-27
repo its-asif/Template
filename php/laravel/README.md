@@ -30,6 +30,13 @@ DB_PASSWORD=
 php artisan migrate
 ```
 
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
+
+
 
 File Structuring
 ----------------------------------------------------------------------------------------------
@@ -72,3 +79,47 @@ File Structuring
 **[⬆ Back to Top](#table-of-contents)**
 
 <br>
+
+
+
+Basic Syntax/Tutorial/CheatSheet
+----------------------------------------------------------------------------------------------
+
+<details>
+  <summary><h2>Routing</h2></summary>
+
+  ```php
+  <?php
+    use Illuminate\Support\Facades\Route;
+
+    Route::get('/', function () {
+        return 'Welcome to Laravel';
+    });
+
+    Route::get('/tasks', function () {
+        return 'Task List should be here..';
+    })->name('tasklist');
+
+    Route::get('/task', function () {
+        // return redirect('/tasks');
+        return redirect()->route('tasklist');
+    });
+
+    Route::get('/tasks/{taskName}', function ( $taskName) {
+        return 'Here is the details of the task: ' . $taskName . '...';
+    });
+
+    Route::fallback(function () {
+        return 'Bruh!! You fell into Black Hole..';
+    });
+  ```
+</details>
+
+
+<br>
+
+**[⬆ Back to Top](#table-of-contents)**
+
+<br>
+
+
